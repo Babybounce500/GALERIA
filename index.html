@@ -19,16 +19,36 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
         img {
             max-width: 100%;
             max-height: 100%;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 2em;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #leftArrow {
+            left: 10px;
+        }
+        #rightArrow {
+            right: 10px;
         }
     </style>
 </head>
 <body>
     <div id="imageContainer">
         <img id="currentImage" src="https://babybounce500.github.io/Kunst2/1.jpg" alt="AI Kunstwerk">
+        <button id="leftArrow" class="arrow">&lt;</button>
+        <button id="rightArrow" class="arrow">&gt;</button>
     </div>
     <script>
         const images = [
@@ -36,23 +56,14 @@
             "https://babybounce500.github.io/Kunst2/21.jpg"
         ];
         let currentIndex = 0;
-        
-        let startTouchX = 0;
-        let endTouchX = 0;
 
-        document.addEventListener('touchstart', function(e) {
-            startTouchX = e.touches[0].clientX;
+        document.getElementById('leftArrow').addEventListener('click', function() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('currentImage').src = images[currentIndex];
         });
 
-        document.addEventListener('touchend', function(e) {
-            endTouchX = e.changedTouches[0].clientX;
-            if (startTouchX - endTouchX > 50) {
-                // Swipe left
-                currentIndex = (currentIndex + 1) % images.length;
-            } else if (endTouchX - startTouchX > 50) {
-                // Swipe right
-                currentIndex = (currentIndex - 1 + images.length) % images.length;
-            }
+        document.getElementById('rightArrow').addEventListener('click', function() {
+            currentIndex = (currentIndex + 1) % images.length;
             document.getElementById('currentImage').src = images[currentIndex];
         });
     </script>
